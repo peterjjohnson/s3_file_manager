@@ -38,3 +38,10 @@ jspm_packages
 
 # Webstorm files
 .idea
+
+# Credentials
+app.config.json
+stormpath.yml
+
+# Build files
+public/js
