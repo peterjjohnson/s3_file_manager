@@ -1,15 +1,18 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Route, browserHistory } from 'react-router';
-import ReactStormpath, { Router, LoginForm, HomeRoute } from 'react-stormpath';
-import LoginPage from './views/LoginPage.jsx';
-import FileBrowser from './views/FileBrowser.jsx';
+'use strict'
 
-ReactStormpath.init();
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import { Route, browserHistory } from 'react-router'
+import ReactStormpath, { Router, LoginForm, HomeRoute, AuthenticatedRoute } from 'react-stormpath'
+import { LoginPage, FileBrowser } from './views'
+
+ReactStormpath.init()
 ReactDOM.render(
     <Router history={browserHistory}>
-        <HomeRoute path="/files" component={FileBrowser} />
+        <AuthenticatedRoute>
+            <HomeRoute path="/files" component={FileBrowser} />
+        </AuthenticatedRoute>
         <Route path="/" component={LoginPage} />
     </Router>,
     document.getElementById('filemanager-app')
-);
+)
