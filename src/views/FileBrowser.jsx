@@ -25,6 +25,7 @@ export default class FileBrowser extends Component {
     constructor(props) {
         super(props)
         this.handleUpload = this.handleUpload.bind(this)
+        this.handleUploadProgress = this.handleUploadProgress.bind(this)
         this.state = {
             objects: [],
             params: {},
@@ -37,6 +38,12 @@ export default class FileBrowser extends Component {
         this.setState({objects: [...this.state.objects, object]})
     }
 
+    handleUploadProgress({loaded: Size, total}, key) {
+        this.setState({
+            objects: this.state.objects.map(object => ((object.Key == key) ? {...object, Size} : object))
+        })
+    }
+
     render() {
         return (
             <div>
@@ -45,6 +52,7 @@ export default class FileBrowser extends Component {
                     credentials={this.state.credentials}
                     region={this.state.region}
                     onAddObject={this.handleUpload}
+                    uploadProgress={this.handleUploadProgress}
                 />
                 <FileList objects={this.state.objects} />
                 <LogoutLink />

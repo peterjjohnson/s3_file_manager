@@ -21,11 +21,11 @@ export default class Upload extends Component {
                     ServerSideEncryption: 'AES256'
                 },
                 S3 = new AWS.S3()
-            this.props.onAddObject({Key: params.Key, Size: file.size})
+            this.props.onAddObject({Key: params.Key, Size: 0})
             S3.putObject(params, (err, data) => {
                 if (err) reject(err)
                 else resolve(data)
-            })
+            }).on('httpUploadProgress', progress => { this.props.uploadProgress(progress, params.Key) })
         })
 
     }
