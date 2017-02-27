@@ -53,8 +53,8 @@ export default class FileBrowser extends Component {
     }
 
     componentDidMount() {
-        getCredentials(this.context.user.username).then(config => {
-            config = JSON.parse(config)
+        getCredentials(this.context.user.username).then(res => {
+            const config = JSON.parse(res)
             AWS.config.update({
                 credentials: config.credentials,
                 region: config.region

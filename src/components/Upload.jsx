@@ -31,19 +31,14 @@ export default class Upload extends Component {
     }
 
     handleUpload(e) {
-        const files = e.target.files,
-            uploads = []
-        for (let i = 0; i < files.length; i++) {
-            uploads.push(this.uploadFile(files[i]))
-        }
-        Promise.all(uploads)
+        Promise.all(Object.keys(e.target.files).map(key => this.uploadFile(e.target.files[key])))
             .then(res => { console.log(JSON.stringify(res, null, 2)) })
             .catch(err => { console.error(err, err.stack) })
     }
 
     render() {
         return (
-            <div>
+            <div id="file-dropzone">
                 <input onChange={this.handleUpload} type="file" multiple />
             </div>
         )
