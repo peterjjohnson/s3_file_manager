@@ -1,9 +1,9 @@
 'use strict'
 
-import React, { Component, PropTypes } from 'react'
-import { LogoutLink } from 'react-stormpath'
+import React, {Component, PropTypes} from 'react'
+import {LogoutLink} from 'react-stormpath'
 import AWS from 'aws-sdk'
-import { Upload, FileList } from '../components'
+import {Upload, FileList} from '../components'
 
 const getCredentials = user => {
     return new Promise((resolve, reject) => {
@@ -38,22 +38,16 @@ export default class FileBrowser extends Component {
         this.setState({objects: [...this.state.objects, object]})
     }
 
-    handleUploadProgress({loaded: Size, total}, key) {
+    handleUploadProgress({loaded: Size}, key) {
         this.setState({
-            objects: this.state.objects.map(object => ((object.Key == key) ? {...object, Size} : object))
+            objects: this.state.objects.map(object => (object.Key == key) ? {...object, Size} : object)
         })
     }
 
     render() {
         return (
             <div>
-                <Upload
-                    params={this.state.params}
-                    credentials={this.state.credentials}
-                    region={this.state.region}
-                    onAddObject={this.handleUpload}
-                    uploadProgress={this.handleUploadProgress}
-                />
+                <Upload {...this.state} onAddObject={this.handleUpload} uploadProgress={this.handleUploadProgress} />
                 <FileList objects={this.state.objects} />
                 <LogoutLink />
             </div>
@@ -62,24 +56,12 @@ export default class FileBrowser extends Component {
 
     componentDidMount() {
         getCredentials(this.context.user.username).then(res => {
-            const config = JSON.parse(res)
-            AWS.config.update({
-                credentials: config.credentials,
-                region: config.region
-            })
+            const {credentials, region, uploadParams: params, listParams} = JSON.parse(res)
+            AWS.config.update({...AWS.config, credentials, region})
             const S3 = new AWS.S3()
-            S3.listObjects(config.listParams, (err, objects) => {
-                if (err) {
-                    console.error(err)
-                    this.setState({ objects: [err] })
-                } else {
-                    this.setState({
-                        objects: objects.Contents,
-                        params: config.uploadParams,
-                        credentials: config.credentials,
-                        region: config.region
-                    })
-                }
+            S3.listObjects(listParams, (err, {Contents: objects}) => {
+                if (err) this.setState({objects: [err]})
+                else this.setState({objects, params, credentials, region})
             })
         })
     }

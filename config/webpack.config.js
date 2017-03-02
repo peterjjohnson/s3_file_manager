@@ -1,12 +1,19 @@
+const webpack = require('webpack')
+
 module.exports = {
     entry: './src/client.jsx',
-    output: { filename: './public/js/client.js' },
+    output: {
+        path: 'public/js',
+        filename: 'client.js',
+        sourceMapFilename: 'client.map'
+    },
+    devtool: '#source-map',
     module: {
         loaders: [
             {
                 test: /\.jsx?$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/,
+                exclude: /(node_modules)/,
                 query: {
                     presets: ['es2015', 'react', 'stage-0']
                 }
@@ -17,4 +24,11 @@ module.exports = {
             }
         ]
     },
-};
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            warnings: false,
+            mangle: true
+        })
+    ]
+}

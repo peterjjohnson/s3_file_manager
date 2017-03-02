@@ -4,10 +4,8 @@ import AWS from 'aws-sdk'
 export default class Upload extends Component {
     constructor(props) {
         super(props)
-        AWS.config.update({
-            credentials: props.credentials,
-            region: props.region
-        })
+        const {credentials, region} = props;
+        AWS.config.update({...AWS.config, credentials, region})
         this.uploadFile = this.uploadFile.bind(this)
         this.handleUpload = this.handleUpload.bind(this)
     }

@@ -1,8 +1,3 @@
-import React, {Component} from 'react'
+const File = ({object}) => <li>{object.Key.slice(object.Key.lastIndexOf('/') + 1)} {object.Size}B</li>
 
-export default class File extends Component {
-    render() {
-        const name = this.props.object.Key.slice(this.props.object.Key.lastIndexOf('/') + 1)
-        return <li>{name} {this.props.object.Size}B</li>
-    }
-}
+export default File
