@@ -44,11 +44,22 @@ export default class FileBrowser extends Component {
         })
     }
 
+    handleDeleteObject(params) {
+        const S3 = new AWS.S3()
+        S3.deleteObject(params, (err) => {
+            if (!err) this.setState({objects: this.state.objects.filter(object => object.Key != params.Key)})
+            else console.error(`Unable to delete file: ${params.Key}`)
+        })
+    }
+
     render() {
         return (
             <div>
                 <Upload {...this.state} onAddObject={this.handleUpload} uploadProgress={this.handleUploadProgress} />
-                <FileList objects={this.state.objects} />
+                <FileList
+                    objects={this.state.objects}
+                    deleteObject={Key => {this.handleDeleteObject({...this.state.params, Key})}}
+                />
                 <LogoutLink />
             </div>
         )

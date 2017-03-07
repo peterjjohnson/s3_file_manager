@@ -6,7 +6,7 @@ const express = require('express'),
     stormpath = require('express-stormpath'),
     port = process.env.PORT || 3000
 
-app.use(express.static(__dirname + '/public'))
+app.use(express.static('public/build'))
 app.use(stormpath.init(app, {
     web: {
         produces: ['application/json']

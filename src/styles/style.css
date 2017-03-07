@@ -1,0 +1,22 @@
+#file-upload {
+    display: none;
+}
+
+#file-dropzone {
+    width: 100px;
+    height: 100px;
+    font-size: 100px;
+    cursor: pointer;
+}
+
+.file-name {
+    margin: 0 10px;
+}
+
+.file-delete {
+    cursor: pointer;
+}
+
+.file-delete:hover {
+    color: #ff3333;
+}

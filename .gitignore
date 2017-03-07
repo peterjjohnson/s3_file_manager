@@ -44,4 +44,4 @@ app.config.json
 stormpath.yml
 
 # Build files
-public/js
+public/build
