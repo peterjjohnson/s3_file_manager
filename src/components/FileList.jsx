@@ -1,8 +1,8 @@
 import File from './File.jsx'
 
-const FileList = ({objects, deleteObject}) =>
+const FileList = ({files, deleteFile}) =>
     <div className="file-list">
-        {objects.map(object => object.Size > 0 ? <File key={object.Key} object={object} deleteObject={deleteObject} /> : null)}
+        {files.map(file => file.Size > 0 ? <File key={file.Key} deleteFile={deleteFile} file={file} /> : null)}
     </div>
 
 export default FileList
