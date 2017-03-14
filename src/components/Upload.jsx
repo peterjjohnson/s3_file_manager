@@ -2,8 +2,12 @@ const Upload = ({uploadFiles}) => {
     let _fileUpload
 
     return (
-        <div className="fa fa-cloud-upload" onClick={e => _fileUpload.click(e)}>
-            <input ref={input => _fileUpload = input} id="file-upload" type="file" multiple onChange={uploadFiles} />
+        <div id="upload-tab" onClick={e => _fileUpload.click(e)}>
+            Click&nbsp;
+            <div className="fa fa-cloud-upload">
+                <input ref={input => _fileUpload = input} id="file-upload" type="file" multiple onChange={uploadFiles} />
+            </div>
+            &nbsp;or drag and drop files to upload
         </div>
     )
 }

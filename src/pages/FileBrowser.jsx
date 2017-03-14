@@ -31,22 +31,20 @@ export default class FileBrowser extends Component {
         })
     }
 
-    uploadFile(file) {
-        const params = {
-            ...this.fileManager.uploadParams,
-            Body: file,
-            Key: this.fileManager.uploadParams.Key + file.name
-        }
-        this.setState({files: [...this.state.files, {Key: params.Key, Size: 0}]})
-        return this.fileManager.uploadFile(params, ({loaded: Size}) => {
-            this.setState({files: this.state.files.map(file => (file.Key == params.Key) ? {...file, Size} : file)})
-        })
-    }
-
     uploadFiles(event) {
-        this.preventDefault(event)
         const files = event.target.files || event.dataTransfer.files
-        Object.keys(files).map(key => this.uploadFile(files[key]).catch(err => console.error(err)))
+        this.preventDefault(event)
+        Object.keys(files).map(key => {
+            const params = {
+                ...this.fileManager.uploadParams,
+                Body: files[key],
+                Key: this.fileManager.uploadParams.Key + files[key].name
+            }
+            this.setState({files: [...this.state.files, {Key: params.Key, Size: 0}]})
+            this.fileManager.uploadFile(params, ({loaded: Size}) => {
+                this.setState({files: this.state.files.map(file => (file.Key == params.Key) ? {...file, Size} : file)})
+            }).catch(err => console.error(err))
+        })
     }
 
     componentDidMount() {
