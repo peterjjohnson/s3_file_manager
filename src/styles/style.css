@@ -7,19 +7,75 @@
     cursor: pointer;
 }
 
+.drop-zone {
+    padding: 10px;
+}
+
+.user-controls {
+    text-align: right;
+}
+
 html, body, #filemanager-app, .drop-zone {
     height: 100%;
+    position: relative;
+}
+
+table, thead, tbody, th, td, tr {
+    margin: 0;
+    padding: 0;
+}
+
+tbody tr:hover {
+    background-color: #ffefdd;
+}
+
+thead {
+    background-color: #bbaa99;
+}
+
+.file-list {
     width: 100%;
+    margin: auto;
+    position: relative;
+    border: solid 2px #666666;
+}
+
+.file-list td {
+    padding: 4px;
 }
 
 .file-name {
-    margin: 0 10px;
+    width: 80%;
 }
 
-.file-delete {
+.file-size {
+    text-align: right;
+}
+
+.file-actions {
+    text-align: center;
+}
+
+.file-delete, .file-download {
     cursor: pointer;
+    margin: 0 1rem;
 }
 
 .file-delete:hover {
     color: #ff3333;
+}
+
+.file-download:hover {
+    color: #33ff33;
+}
+
+.file-icon {
+    margin-right: 2rem;
+}
+
+.loading {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 10%;
 }
