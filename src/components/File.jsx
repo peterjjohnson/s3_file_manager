@@ -1,3 +1,9 @@
+/**
+ * Display the specified file as a table row
+ *
+ * @param object file - The file we are displaying
+ * @param callback deleteFile - Callback method to trigger when we want to delete this file
+ */
 const File = ({file, deleteFile}) =>
     <tr className="file-item">
         <td className="file-name">

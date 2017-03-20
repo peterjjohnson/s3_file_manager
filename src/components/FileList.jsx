@@ -1,5 +1,11 @@
 import File from './File.jsx'
 
+/**
+ * Render the specified list of files in a table
+ *
+ * @param array files - The files to display
+ * @param callback deleteFile - Callback to pass to each file so that they can be deleted
+ */
 const FileList = ({files, deleteFile}) =>
     <table className="file-list">
         <thead>

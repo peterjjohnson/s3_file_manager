@@ -5,11 +5,20 @@ import {LogoutLink} from 'react-stormpath'
 import {FileManagerFactory} from '../lib'
 import {Upload, FileList} from '../components'
 
+/**
+ * FileBrowser class
+ */
 export default class FileBrowser extends Component {
+    // Give us access to the user object for the logged in user
     static contextTypes = {
         user: PropTypes.object
     }
 
+    /**
+     * Initialise the instance
+     *
+     * @param object props - Component props
+     */
     constructor(props) {
         super(props)
         this.handleDeleteFile = this.handleDeleteFile.bind(this)
@@ -18,15 +27,26 @@ export default class FileBrowser extends Component {
         this.fileManager = {}
     }
 
+    /**
+     * Handle file deletes
+     *
+     * @param object params - S3 params (must include Bucket and Key)
+     */
     handleDeleteFile(params) {
         this.fileManager.deleteFile(params).then(() => {
             this.setState({files: this.state.files.filter(file => file.Key != params.Key)})
         })
     }
 
+    /**
+     * Handle file uploads
+     *
+     * @param object event - The event that initiated this callback (was it a click or a drag/drop?)
+     */
     uploadFiles(event) {
         this.preventDefault(event)
         const uploadObjects = event.target.files || event.dataTransfer.files,
+            // Extract and format the files from the event
             files = Object.keys(uploadObjects).map(key => {
                 const params = {
                         ...this.fileManager.uploadParams,
@@ -37,8 +57,10 @@ export default class FileBrowser extends Component {
                 return {params, file}
             })
 
+        // Add all the new files to the file list
         this.setState({files: [...this.state.files, ...files.map(({file}) => file)]})
 
+        // Iterate through the new files and send them up to S3
         files.map(({params}) => {
             this.fileManager.uploadFile(params, ({loaded: Size, total}) => {
                 const UploadComplete = ( total == Size )
@@ -47,6 +69,9 @@ export default class FileBrowser extends Component {
         })
     }
 
+    /**
+     * Before we render, let's set up our FileManager and grab our file list from S3
+     */
     componentWillMount() {
         FileManagerFactory(this.context.user.username).then(fileManager => {
             this.fileManager = fileManager
@@ -57,11 +82,23 @@ export default class FileBrowser extends Component {
         })
     }
 
+    /**
+     * Don't do anything.
+     *
+     * @param object e - The event to cancel
+     *
+     * @returns {boolean}
+     */
     preventDefault(e) {
         e.preventDefault()
         return false
     }
 
+    /**
+     * Render our FileBrowser component
+     *
+     * @returns {XML}
+     */
     render() {
         const {files, loading} = this.state
         return (
@@ -73,7 +110,8 @@ export default class FileBrowser extends Component {
                 <div className="user-controls">
                     <LogoutLink />
                 </div>
-                {(loading) ?
+                { // See if we're still loading and display a spinner until we're done
+                    (loading) ?
                     <i className="loading fa fa-5x fa-spinner fa-pulse fa-fw" aria-hidden="true"></i> :
                     <div>
                         <Upload uploadFiles={this.uploadFiles} />

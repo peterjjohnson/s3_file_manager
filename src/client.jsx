@@ -9,9 +9,13 @@ import {LoginPage, FileBrowser} from './pages'
 require('font-awesome/css/font-awesome.css')
 require('./styles/style.css')
 
+// Make sure React is always available
 window.React = React
 
+// Initialise Stormpath
 ReactStormpath.init()
+
+// Render our application
 ReactDOM.render(
     <Router history={browserHistory}>
         <AuthenticatedRoute>

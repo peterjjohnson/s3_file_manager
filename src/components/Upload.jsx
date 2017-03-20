@@ -1,3 +1,10 @@
+/**
+ * Render an upload link that will open a file browser when clicked
+ *
+ * @param callback uploadFiles - Method to handle uploads, called on the change event on our file input
+ *
+ * @returns {XML}
+ */
 const Upload = ({uploadFiles}) => {
     let _fileUpload
 
