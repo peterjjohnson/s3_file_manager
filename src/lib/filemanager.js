@@ -82,6 +82,13 @@ class FileManager {
         })
     }
 
+    /**
+     * Get a temporary signed URL to download a file
+     *
+     * @param objcet params - S3 download params (must include Key and Bucket)
+     *
+     * @returns {Promise}
+     */
     downloadFile(params) {
         return new Promise((resolve, reject) => {
             this.S3.getSignedUrl('getObject', {...params, Expires: 60}, (err, url) => err ? reject(err) : resolve(url))

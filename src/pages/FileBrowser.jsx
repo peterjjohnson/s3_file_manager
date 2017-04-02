@@ -39,6 +39,11 @@ export default class FileBrowser extends Component {
         })
     }
 
+    /**
+     * Handle file download requests
+     *
+     * @param object params - S3 params (must include Bucket and Key)
+     */
     handleDownloadFile(params) {
         this.fileManager.downloadFile(params).then(url => {
             location.href = url

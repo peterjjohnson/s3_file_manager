@@ -1,5 +1,5 @@
 # S3 File Manager
-This is just a project to help me learn more about React well also having fun
+This is just a project to help me learn more about React while also having fun
 with AWS.
 
 Currently, all this will do is display a list of files belonging to the logged
