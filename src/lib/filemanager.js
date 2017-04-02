@@ -81,6 +81,12 @@ class FileManager {
             this.S3.deleteObject(params, err => err ? reject(err) : resolve())
         })
     }
+
+    downloadFile(params) {
+        return new Promise((resolve, reject) => {
+            this.S3.getSignedUrl('getObject', {...params, Expires: 60}, (err, url) => err ? reject(err) : resolve(url))
+        })
+    }
 }
 
 export default FileManagerFactory

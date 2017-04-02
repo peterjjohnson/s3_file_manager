@@ -4,7 +4,7 @@
  * @param object file - The file we are displaying
  * @param callback deleteFile - Callback method to trigger when we want to delete this file
  */
-const File = ({file, deleteFile}) =>
+const File = ({file, deleteFile, downloadFile}) =>
     <tr className="file-item">
         <td className="file-name">
             <i className="fa fa-file file-icon" />
@@ -16,7 +16,7 @@ const File = ({file, deleteFile}) =>
         <td className="file-actions">
             {(file.UploadComplete) ?
                 <div>
-                    <i className="file-download fa fa-download" onClick={() => {}} />
+                    <i className="file-download fa fa-download" onClick={() => { downloadFile(file.Key) }} />
                     <i className="file-delete fa fa-trash" onClick={() => { deleteFile(file.Key) }} />
                 </div>
                 :

@@ -22,6 +22,7 @@ export default class FileBrowser extends Component {
     constructor(props) {
         super(props)
         this.handleDeleteFile = this.handleDeleteFile.bind(this)
+        this.handleDownloadFile = this.handleDownloadFile.bind(this)
         this.uploadFiles = this.uploadFiles.bind(this)
         this.state = {loading: true, files:[]}
         this.fileManager = {}
@@ -35,6 +36,12 @@ export default class FileBrowser extends Component {
     handleDeleteFile(params) {
         this.fileManager.deleteFile(params).then(() => {
             this.setState({files: this.state.files.filter(file => file.Key != params.Key)})
+        })
+    }
+
+    handleDownloadFile(params) {
+        this.fileManager.downloadFile(params).then(url => {
+            location.href = url
         })
     }
 
@@ -112,13 +119,16 @@ export default class FileBrowser extends Component {
                 </div>
                 { // See if we're still loading and display a spinner until we're done
                     (loading) ?
-                    <i className="loading fa fa-5x fa-spinner fa-pulse fa-fw" aria-hidden="true"></i> :
+                    <i className="loading fa fa-5x fa-spinner fa-pulse fa-fw" aria-hidden="true" /> :
                     <div>
                         <Upload uploadFiles={this.uploadFiles} />
                         <FileList
                             files={files}
                             deleteFile={Key => {
                                 this.handleDeleteFile({...this.fileManager.deleteParams, Key})
+                            }}
+                            downloadFile={Key => {
+                                this.handleDownloadFile({...this.fileManager.deleteParams, Key})
                             }}
                         />
                     </div>

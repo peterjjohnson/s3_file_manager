@@ -6,7 +6,7 @@ import File from './File.jsx'
  * @param array files - The files to display
  * @param callback deleteFile - Callback to pass to each file so that they can be deleted
  */
-const FileList = ({files, deleteFile}) =>
+const FileList = ({files, deleteFile, downloadFile}) =>
     <table className="file-list">
         <thead>
             <tr>
@@ -16,7 +16,7 @@ const FileList = ({files, deleteFile}) =>
             </tr>
         </thead>
         <tbody>
-            {files.map(file => file.Size > 0 ? <File key={file.Key} deleteFile={deleteFile} file={file} /> : null)}
+            {files.map(file => file.Size > 0 ? <File key={file.Key} deleteFile={deleteFile} downloadFile={downloadFile} file={file} /> : null)}
         </tbody>
     </table>
 
