@@ -8,7 +8,7 @@ module.exports = {
         sourceMapFilename: 'client.map'
     },
     watch: true,
-    // devtool: '#source-map',
+    devtool: '#source-map',
     module: {
         loaders: [
             {
@@ -30,10 +30,10 @@ module.exports = {
         ]
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     sourceMap: true,
-        //     warnings: false,
-        //     mangle: true
-        // })
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            warnings: false,
+            mangle: true
+        })
     ]
 }

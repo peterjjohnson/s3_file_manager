@@ -1,4 +1,20 @@
 /**
+ * Parse the supplied file size and return a more readable version
+ * @param float fileSize - File size to be parsed
+ *
+ * @returns {string}
+ */
+const parseFileSize = fileSize => {
+    let position = 0
+    const units = ['B', 'KB', 'MB', 'GB', 'TB']
+    while (fileSize >= 1024 && (fileSize / 1024) >= 1) {
+        fileSize /= 1024
+        position++
+    }
+    return (Math.round(fileSize * 100) / 100) + units[position]
+}
+
+/**
  * Display the specified file as a table row
  *
  * @param object file - The file we are displaying
@@ -11,7 +27,7 @@ const File = ({file, deleteFile, downloadFile}) =>
             {file.Key.slice(file.Key.lastIndexOf('/') + 1)}
         </td>
         <td className="file-size">
-            {file.Size}B
+            {parseFileSize(file.Size)}
         </td>
         <td className="file-actions">
             {(file.UploadComplete) ?
