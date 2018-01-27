@@ -1,18 +1,14 @@
-'use strict'
-
 import React, {Component, PropTypes} from 'react'
-import {LogoutLink} from 'react-stormpath'
 import {FileManagerFactory} from '../lib'
 import {Upload, FileList} from '../components'
+import Auth from '../lib/auth'
+
+const auth = new Auth()
 
 /**
  * FileBrowser class
  */
 export default class FileBrowser extends Component {
-    // Give us access to the user object for the logged in user
-    static contextTypes = {
-        user: PropTypes.object
-    }
 
     /**
      * Initialise the instance
@@ -20,6 +16,8 @@ export default class FileBrowser extends Component {
      * @param object props - Component props
      */
     constructor(props) {
+        // If the user isn't authenticated, proceed no further
+        if (!auth.isAuthenticated()) auth.logout()
         super(props)
         this.handleDeleteFile = this.handleDeleteFile.bind(this)
         this.handleDownloadFile = this.handleDownloadFile.bind(this)
@@ -85,11 +83,14 @@ export default class FileBrowser extends Component {
      * Before we render, let's set up our FileManager and grab our file list from S3
      */
     componentWillMount() {
-        FileManagerFactory(this.context.user.username).then(fileManager => {
-            this.fileManager = fileManager
-            this.setState({loading: true})
-            this.fileManager.listFiles().then(files => {
-                this.setState({files: files.map(file => { return {...file, UploadComplete: true} }), loading: false});
+        // Get the user profile in order to retrieve the correct credentials
+        auth.getProfile().then(user => {
+            FileManagerFactory(user.email).then(fileManager => {
+                this.fileManager = fileManager
+                this.setState({loading: true})
+                this.fileManager.listFiles().then(files => {
+                    this.setState({files: files.map(file => { return {...file, UploadComplete: true} }), loading: false});
+                })
             })
         })
     }
@@ -120,7 +121,6 @@ export default class FileBrowser extends Component {
                  onDragLeave={this.preventDefault}
                  onDrop={this.uploadFiles}>
                 <div className="user-controls">
-                    <LogoutLink />
                 </div>
                 { // See if we're still loading and display a spinner until we're done
                     (loading) ?

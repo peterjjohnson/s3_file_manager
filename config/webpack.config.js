@@ -3,7 +3,7 @@ const webpack = require('webpack')
 module.exports = {
     entry: './src/client.jsx',
     output: {
-        path: 'public/build',
+        path: `${__dirname}/../public/build`,
         filename: 'client.js',
         sourceMapFilename: 'client.map'
     },

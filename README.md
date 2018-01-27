@@ -28,12 +28,15 @@ app.config.json in the config folder and format it thus:
  The credentials should be for a user with full access to your bucket as well
  as permission to use STS.
  
- Second, you'll need a file in the root folder named stormpath.yml:
+ Second, you'll need a file in src/lib named client.config.js:
  ```
-client:
-  apiKey:
-    id: [your apiKey id]
-    secret: [your apiKey secret]
-  application:
-    href: [Your Stormpath application API URL]
+class config {
+    auth0 = {
+        domain: [DOMAIN.auth0.com],
+        clientID: [CLIENT_ID],
+        redirectUri: [CALLBACK URL],
+        audience: [https://DOMAIN.auth0.com/userinfo],
+    }
+}
+export default new config()
 ```

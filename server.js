@@ -3,17 +3,10 @@
 const express = require('express'),
     app = express(),
     server = require('http').Server(app),
-    stormpath = require('express-stormpath'),
     port = process.env.PORT || 3000
 
 // Set up our client root to public/build
-app.use(express.static('public/build'))
-// Initialise Stormpath
-app.use(stormpath.init(app, {
-    web: {
-        produces: ['application/json']
-    }
-}))
+app.use(express.static(`${__dirname}/public/build`))
 
 // Endpoint to reitrieve user-based credentials from AWS
 app.get('/credentials', (req, res) => {
@@ -26,12 +19,9 @@ app.get('/credentials', (req, res) => {
 
 // All routes not specifically defined here are handled by React Router
 app.get('*', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html')
+    res.sendFile(`${__dirname}/public/index.html`)
 })
 
-// When Stormapth is ready, begin serving the app
-app.on('stormpath.ready', () => {
-    server.listen(port, () => {
-        console.log('Server listening on port ' + port)
-    })
+server.listen(port, () => {
+    console.log(`Server listening on port ${port}`)
 })

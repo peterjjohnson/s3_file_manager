@@ -1,4 +1,6 @@
-import {LoginForm} from 'react-stormpath'
+import Auth from '../lib/auth'
+
+const auth = new Auth()
 
 /**
  * Render the login page
@@ -6,7 +8,7 @@ import {LoginForm} from 'react-stormpath'
 const LoginPage = () => (
     <div className="login-page">
         <h1 className="col-xs-offset-4 col-sm-4">Please log in</h1>
-        <LoginForm />
+        {auth.login()}
     </div>
 )
 

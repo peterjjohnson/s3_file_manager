@@ -41,7 +41,7 @@ jspm_packages
 
 # Credentials
 app.config.json
-stormpath.yml
+client.config.js
 
 # Build files
 public/build
