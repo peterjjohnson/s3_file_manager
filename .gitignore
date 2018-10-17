@@ -38,6 +38,7 @@ jspm_packages
 
 # Webstorm files
 .idea
+.vscode
 
 # Credentials
 app.config.json
